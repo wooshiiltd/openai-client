@@ -111,7 +111,12 @@ final class HttpTransporter implements TransporterContract
 
     private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void
     {
-        if ($response->getStatusCode() < 400) {
+        $isOpenRouter = in_array($this->baseUri->toString(), [
+            'https://openrouter.helicone.ai/api/v1/',
+            'https://openrouter.ai/api/v1/'
+        ]);
+
+        if (!$isOpenRouter && $response->getStatusCode() < 400) {
             return;
         }
 
