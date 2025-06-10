@@ -14,10 +14,12 @@ final class CreateStreamedResponseDelta
         public readonly ?string $content,
         public readonly array $toolCalls,
         public readonly ?CreateStreamedResponseFunctionCall $functionCall,
+        public readonly ?string $reasoning,
+        public readonly array $raw,
     ) {}
 
     /**
-     * @param  array{role?: string, content?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
+     * @param  array{role?: string, content?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>, reasoning?: string, raw: array}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -30,6 +32,8 @@ final class CreateStreamedResponseDelta
             $attributes['content'] ?? null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateStreamedResponseFunctionCall::from($attributes['function_call']) : null,
+            $attributes['reasoning'] ?? null,
+            $attributes,
         );
     }
 
